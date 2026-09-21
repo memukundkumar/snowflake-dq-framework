@@ -78,4 +78,17 @@ SELECT
 FROM DATA_QUALITY_DB.PUBLIC.DQ_AUDIT_LOG
 ORDER BY EXECUTION_TIMESTAMP DESC;
 
+3. **Column Mapping & Header Standardization:**
+   * **Issue:** Source files (e.g., Kaggle `OnlineRetail.csv`) often contain non-standard header names like `InvoiceNo`, `StockCode`, and `InvoiceDate`.
+   * **Solution:** To prevent syntax errors and preserve database conventions, column headers are explicitly remapped to standardized relational database names in `KAGGLE_RETAIL_REAL`:
 
+     | Raw Kaggle CSV Header | Target Snowflake Column | Target Data Type |
+     | :--- | :--- | :--- |
+     | `InvoiceNo` | `ORDER_ID` | `STRING` |
+     | `StockCode` | `PRODUCT_ID` | `STRING` |
+     | `Description` | `DESCRIPTION` | `STRING` |
+     | `Quantity` | `QUANTITY` | `INTEGER` |
+     | `InvoiceDate` | `TRANSACTION_TIMESTAMP` | `VARCHAR` $\rightarrow$ `TIMESTAMP_NTZ` |
+     | `UnitPrice` | `UNIT_PRICE` | `FLOAT` |
+     | `CustomerID` | `CUSTOMER_ID` | `STRING` |
+     | `Country` | `COUNTRY` | `STRING` |
